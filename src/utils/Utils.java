@@ -3,10 +3,15 @@ package utils;
 import model.Category;
 import model.Problem;
 import model.ProblemInfo;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.text.TextUtils;
 import db.LeetcodeDB;
 
@@ -91,5 +96,20 @@ public class Utils {
 			
 		}
 		return -1;
+	}
+	public static boolean isWifiConnected(Context context)
+	{
+		ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		return networkInfo.isConnected();
+	}
+	public static boolean isNetworkConnected(Context context)
+	{
+		ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+		if(networkInfo != null){
+			return networkInfo.isAvailable();
+		}
+		return false;
 	}
 }

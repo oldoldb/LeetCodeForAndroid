@@ -153,6 +153,31 @@ public class LeetcodeCategoryActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
+		if(!Utils.isNetworkConnected(this)){
+			new AlertDialog.Builder(this)
+			.setTitle("无网络连接!")
+			.setPositiveButton("返回", null)
+			.show();
+		}else if(!Utils.isWifiConnected(this)){
+			new AlertDialog.Builder(this)
+			.setTitle("确定要在非Wifi环境下下载数据吗?")
+			.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					// TODO Auto-generated method stub
+					startQueryServerTask();				
+				}
+			})
+			.setNegativeButton("取消", null)
+			.show();
+		}else{
+			startQueryServerTask();
+		}
+	}
+	
+	private void startQueryServerTask()
+	{
 		QueryServerTask queryServerTask = new QueryServerTask(this) {
 			
 			@Override
