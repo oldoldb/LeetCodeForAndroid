@@ -38,8 +38,12 @@ public class Utils {
 			Document document = Jsoup.parse(response);
 			Elements elements = document.getElementsByAttributeValue("class", "question-title");
 			for(Element element : elements){
+				Elements hElements = element.getElementsByTag("h3");
+				if(hElements.text() == null || hElements.text().trim() == ""){
+					continue;
+				}
 				Problem problem = new Problem();
-				problem.setProblemName(element.getElementsByTag("h3").text());
+				problem.setProblemName(hElements.text());
 				problem.setCategoryId(categoryId);
 				leetcodeDB.saveProblem(problem);
 			}
